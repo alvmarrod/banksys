@@ -31,6 +31,9 @@ if __name__ == "__main__":
     print(f"2. Removing unnecesary columns...")
     movements = movements.iloc[:, 0:5]
     
-    print(f"3. ...")
-    #print(movements.dtypes)
-    #print(movements.describe)
+    print(f"3. Recognise movements and wealth columns...")
+    mov_col, wea_col = analysis.detect_money_cols(movements)
+    print(f"\tMovements column: {mov_col}")
+    print(f"\tWealth column: {wea_col}")
+    
+    print(f"4. ...")
