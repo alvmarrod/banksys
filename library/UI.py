@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 import logging
+import platform
+
+PLATFORM = platform.system().lower()
+CLEAN_CMD = "cls" if "win" in PLATFORM else "clear"
 
 def _ask_back_to_menu() -> bool:
     """Checks if the user wants to go back to the menu
@@ -50,7 +54,7 @@ def _menu_generation() -> bool:
         }
     }
 
-    os.system("cls")
+    os.system(CLEAN_CMD)
 
     print("############### banksys ###############")
     print("####                               ####")

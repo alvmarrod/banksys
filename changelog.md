@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Change version to `0.0.2`
 - Recognise columns with date values
 - Menu to control the app behaviour
+- Added platform control for output cleaning
    
 ### Changed
 
