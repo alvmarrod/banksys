@@ -3,6 +3,8 @@ import os
 import logging
 import platform
 
+import library.processes as processes
+
 PLATFORM = platform.system().lower()
 CLEAN_CMD = "cls" if "win" in PLATFORM else "clear"
 
@@ -38,7 +40,7 @@ def _menu_generation() -> bool:
         },
         2: {
             "text": "Load new movements",
-            "function": None
+            "function": processes.load_data
         },
         3: {
             "text": "Manual analysis",
@@ -89,8 +91,8 @@ def _menu_generation() -> bool:
 
         print(f"Error! {e}\n")
 
-        if not _ask_back_to_menu():
-            show_again = False
+    if not _ask_back_to_menu():
+        show_again = False
     
     return show_again
 

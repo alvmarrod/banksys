@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Moved previous main steps to new proccesses block
 - Moved `load_movements` to processes block
+- Moved load data option from main args to menu option
  
 ### Fixed
 
