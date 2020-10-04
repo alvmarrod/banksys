@@ -1,28 +1,23 @@
-
+# -*- coding: utf-8 -*-
 import logging
 import numpy as np
 import pandas as pd
 
-def load_movements(filepath) -> pd.DataFrame:
-    """Reads a CSV file with bank account movements and returns a pandas
-    Dataframe.
+#######################################################################
 
-    + First two columns will be tried to be parsed as dates.
-    + Sepatator is `;`
-    + Decimal separator is `,`
-    + Expected encoding is `Latin-1`
-
-    FP: Non-pure function
+def _is_date_type(type) -> bool:
+    """Checks if the given type is a valid date type
     """
 
-    return pd.read_csv(filepath,
-                        sep=";",
-                        decimal=",",
-                        thousands=".",
-                        header="infer",
-                        parse_dates=[0,1],
-                        infer_datetime_format=True,
-                        encoding="iso-8859-1")
+    result = False
+
+    if np.issubdtype(type, np.datetime64):
+        result = True
+
+    return result 
+
+
+#######################################################################
 
 def detect_money_cols(dataframe) -> (str, str):
     """Detects the movement and wealth column names by looking for both
@@ -61,3 +56,18 @@ def detect_money_cols(dataframe) -> (str, str):
                     wea = col            
 
     return mov, wea
+
+def detect_dates_cols(dataframe) -> list:
+    """Detects those columns with dates in it and returns their names as a list.
+    """
+
+    results = []
+
+    for col in dataframe.columns:
+
+        if _is_date_type(dataframe[col].dtype):
+
+            logging.debug(f"Column: {col} - {dataframe[col].dtype} Type")
+            results.append(col)
+
+    return results
