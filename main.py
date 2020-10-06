@@ -6,9 +6,14 @@ import pandas as pd
 
 import library.UI as UI
 import library.analysis as analysis
+import library.yamlconfig as YC
+
+#######################################################################
 
 logging.basicConfig(level=logging.INFO,
                     format='%(name)s - %(levelname)s - %(message)s')
+
+SETUP_PROFILE = "User1"
 
 #######################################################################
 
@@ -39,5 +44,7 @@ if __name__ == "__main__":
     # print(f"3. Recognise dates columns...")
     # date_cols = analysis.detect_dates_cols(movements)
     # print(f"\tColumns: {date_cols}")
+
+    configuration = YC.load_config(SETUP_PROFILE)
 
     UI.menu()

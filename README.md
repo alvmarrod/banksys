@@ -30,3 +30,4 @@ Remember that a new commit does not imply a new version.
 
 - [Numpy](https://numpy.org/)
 - [Pandas](https://pandas.pydata.org/)
+- [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation)

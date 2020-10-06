@@ -11,11 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Change version to `0.0.3`
 - Added basic files and functions to work with sqlite3 databases for consolidated data
-   
-### Changed
- 
-### Fixed
-
+- Added basic files and functions to work with configuration using YAML
+- Added [requirements](./requirements.txt) file
 
 ## [0.0.2] - 2020-10-04
  
@@ -42,7 +39,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Added this changelog
 - Added [version](./version.txt) file
-   
-### Changed
- 
-### Fixed
