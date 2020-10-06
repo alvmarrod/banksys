@@ -29,8 +29,6 @@ def _ask_str_user(msg) -> str:
 
     return result
 
-#######################################################################
-
 def _load_movements(filepath, col_limit=5) -> pd.DataFrame:
     """Reads a CSV file with bank account movements and returns a pandas
     Dataframe.
@@ -58,6 +56,8 @@ def _load_movements(filepath, col_limit=5) -> pd.DataFrame:
     moves = moves.iloc[:, 0:col_limit]
 
     return moves
+
+#######################################################################
 
 def load_data():
     """Loads new data to the consolidated system.
