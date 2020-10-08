@@ -46,20 +46,28 @@ def _execute_non_reader_query(con, query) -> int:
     indicates the number of rows that have been updated.
     """
 
-    result = 0
-    cursor = con.execute(query)
+    result = 1
 
-    commit_commands = [
-        "insert",
-        "update",
-        "delete"
-    ]
+    try:
 
-    if query.split(" ")[0].lower() in commit_commands:
-        con.commit()
+        con.execute(query)
 
-    if query.split(" ")[0].lower() == "update":
-        result = con.total_changes
+        commit_commands = [
+            "insert",
+            "update",
+            "delete"
+        ]
+
+        if query.split(" ")[0].lower() in commit_commands:
+            con.commit()
+
+        if query.split(" ")[0].lower() == "update":
+            result = con.total_changes
+
+    except Exception as e:
+        result = 0
+        logging.warning(f"Couldn't execute non-reader query: \"{query}\"")
+        logging.info(e)
 
     return result
 
@@ -100,6 +108,30 @@ def open_database(db_file) -> sqlite3.Connection:
         logging.info(e)
 
     return con
+
+def insert_movement(con, data_tuple) -> bool:
+    """Inserts the given data tuple into the all_movements table.
+
+    Parameters:
+    - A `tuple` with 5 elements to be inserted into the table.
+
+    Returns:
+    - A `bool` indicating if the insertion was accomplished (true)
+    """
+
+    result = True
+
+    if len(data_tuple) != 5:
+        result = False
+        logging.warning(f"Movement data was not length 5 but {len(data_tuple)}")
+    else:
+        query = "INSERT INTO all_movements(" + \
+                "OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE) VALUES " + \
+                "(\"" + '","'.join(str(i) for i in data_tuple) + "\")"
+        result = (1 == _execute_non_reader_query(con, query))
+
+    return result
+
 
 def close_database(con):
     """Close the given database connection
