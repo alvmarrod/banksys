@@ -208,10 +208,11 @@ def read_movements_by_amount_range(con, min, max) -> tuple:
     - A `tuple` with the results
     """
 
-    if min > max:
-        toggle = min
-        min = max
-        max = toggle
+    if min and max:
+        if min > max:
+            toggle = min
+            min = max
+            max = toggle
 
     if min:
         aux =  f" WHERE AMOUNT >= {min}"
@@ -221,6 +222,50 @@ def read_movements_by_amount_range(con, min, max) -> tuple:
             aux += f" AND AMOUNT <= {max}"
         else:
             aux = f" WHERE AMOUNT <= {max}"
+
+    query = "SELECT ID, OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE" + \
+            f" FROM all_movements {aux}"
+
+    result = None
+
+    try:
+        result = _execute_reader_query(con, query)
+
+    except Exception as e:
+        logging.warning(f"Couldn't get data for the given range: {min}, {max}")
+        logging.info(e)
+
+    return result
+
+def read_movements_by_balance_range(con, min, max) -> tuple:
+    """Queries the all_movements table by balance amount and returns
+    all the movements that match this range.
+
+    The function is capable of switching boundaries if mistaken.
+
+    Parameters:
+    - A `sqlite3.Connection` to the database
+    - A `double` with the lower threshold. None means no boundary.
+    - A `double` with the upper threshold. None means no boundary.
+
+    Returns:
+    - A `tuple` with the results
+    """
+
+    if min and max:
+        if min > max:
+            toggle = min
+            min = max
+            max = toggle
+
+    if min:
+        aux =  f" WHERE BALANCE >= {min}"
+
+    if max:
+        if len(aux) > 0:
+            aux += f" AND BALANCE <= {max}"
+        else:
+            aux = f" WHERE BALANCE <= {max}"
 
     query = "SELECT ID, OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE" + \
             f" FROM all_movements {aux}"
