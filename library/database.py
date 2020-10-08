@@ -32,7 +32,8 @@ def _create_all_movements_table(con):
             VAL_DATE       TEXT    NOT NULL,
             CONCEPT        TEXT    NULL,
             AMOUNT         REAL,
-            BALANCE        REAL);''')
+            BALANCE        REAL,
+            TIMESTAMP      DATETIME DEFAULT CURRENT_TIMESTAMP);''')
 
         logging.info("Table all_movements created!")
 
@@ -71,7 +72,7 @@ def _execute_non_reader_query(con, query) -> int:
 
     return result
 
-def _execute_reader_query(con, query) -> list:
+def _execute_reader_query(con, query) -> tuple:
     """Execute a reader query that returns a `list` with the query
     response.
     """
@@ -132,6 +133,127 @@ def insert_movement(con, data_tuple) -> bool:
 
     return result
 
+def read_movements_by_op_date(con, date) -> tuple:
+    """Queries the all_movements table by operation date and retrieves the 
+    movements, ordered by insertion time.
+    """
+
+    query = "SELECT ID, OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE" + \
+            " FROM all_movements" + \
+            f" WHERE OP_DATE=\"{date}\""
+
+    result = None
+
+    try:
+        result = _execute_reader_query(con, query)
+
+    except Exception as e:
+        logging.warning(f"Couldn't retrieve data for the given date: {date}")
+        logging.info(e)
+
+    return result
+
+def read_movements_by_val_date(con, date) -> tuple:
+    """Queries the all_movements table by value date and retrieves the
+    movements, ordered by insertion time.
+    """
+
+    query = "SELECT ID, OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE" + \
+            " FROM all_movements" + \
+            f" WHERE VAL_DATE=\"{date}\""
+
+    result = None
+
+    try:
+        result = _execute_reader_query(con, query)
+
+    except Exception as e:
+        logging.warning(f"Couldn't retrieve data for the given date: {date}")
+        logging.info(e)
+
+    return result
+
+def read_movements_by_amount(con, amount) -> tuple:
+    """Queries the all_movements table by transaction amount and returns
+    all the movements that match this amount.
+    """
+
+    query = "SELECT ID, OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE" + \
+            " FROM all_movements" + \
+            f" WHERE AMOUNT={amount}"
+
+    result = None
+
+    try:
+        result = _execute_reader_query(con, query)
+
+    except Exception as e:
+        logging.warning(f"Couldn't get data for the given amount: {amount}")
+        logging.info(e)
+
+    return result
+
+def read_movements_by_amount_range(con, min, max) -> tuple:
+    """Queries the all_movements table by transaction amount and returns
+    all the movements that match this amount.
+
+    The function is capable of switching boundaries if mistaken.
+
+    Parameters:
+    - A `sqlite3.Connection` to the database
+    - A `double` with the lower threshold. None means no boundary.
+    - A `double` with the upper threshold. None means no boundary.
+
+    Returns:
+    - A `tuple` with the results
+    """
+
+    if min > max:
+        toggle = min
+        min = max
+        max = toggle
+
+    if min:
+        aux =  f" WHERE AMOUNT >= {min}"
+
+    if max:
+        if len(aux) > 0:
+            aux += f" AND AMOUNT <= {max}"
+        else:
+            aux = f" WHERE AMOUNT <= {max}"
+
+    query = "SELECT ID, OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE" + \
+            f" FROM all_movements {aux}"
+
+    result = None
+
+    try:
+        result = _execute_reader_query(con, query)
+
+    except Exception as e:
+        logging.warning(f"Couldn't get data for the given range: {min}, {max}")
+        logging.info(e)
+
+    return result
+
+def read_movements(con) -> tuple:
+    """Queries the all_movements table and retrieves the movements,
+    ordered by insertion time.
+    """
+
+    query = "SELECT ID, OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE" + \
+            " FROM all_movements"
+
+    result = None
+
+    try:
+        result = _execute_reader_query(con, query)
+
+    except Exception as e:
+        logging.warning(f"Couldn't retrieve data for all_movements table")
+        logging.info(e)
+
+    return result
 
 def close_database(con):
     """Close the given database connection
