@@ -47,14 +47,10 @@ if __name__ == "__main__":
 
     con = DB.open_database(DB_FILE)
 
-    res = DB._execute_reader_query(con, "SELECT ID, OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE from all_movements")
-    print(f"Reads result: {len(res)}")
-    for item in res:
-        print(item)
-    res = DB._execute_non_reader_query(con, "INSERT INTO all_movements(OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE) VALUES (\"2020-20-06\",\"2020-20-06\", \"Concepto prueba jeje\", 50, 50)")
-    print("Insert result: ")
-    print(res)
-    res = DB._execute_reader_query(con, "SELECT ID, OP_DATE, VAL_DATE, CONCEPT, AMOUNT, BALANCE from all_movements")
+    res = DB.insert_movement(con, ("2020-20-06", "2020-20-07", "Prueba 2", 70, 150))
+    #print(f"Insert result: {res}")
+
+    res = DB.read_movements_by_balance_range(con, 100, None)
     print(f"Reads result: {len(res)}")
     for item in res:
         print(item)
