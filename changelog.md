@@ -5,7 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.0.3] - 2020-10-??
+## [0.0.4] - 2020-10-??
+ 
+### Added
+
+- Added basic unit testing with [pytest](https://pypi.org/project/pytest/)
+- Added pytest to [requirements](./requirements.txt) file
+
+## [0.0.3] - 2020-10-08
  
 ### Added
 
