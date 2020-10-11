@@ -145,8 +145,8 @@ def test_read_movements_by_op_date():
     con = DB.open_database(db_file)
     assert con is not None
 
-    for i in range(0, 12):
-        for j in range(0, 20):
+    for i in range(1, 12):
+        for j in range(1, 20):
 
             test_date = f"2000-{i}-{j}"
 
@@ -173,8 +173,8 @@ def test_read_movements_by_val_date():
     con = DB.open_database(db_file)
     assert con is not None
 
-    for i in range(0, 12):
-        for j in range(0, 20):
+    for i in range(1, 12):
+        for j in range(1, 20):
 
             test_date = f"2000-{i}-{j}"
 
