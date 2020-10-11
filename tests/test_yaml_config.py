@@ -31,7 +31,7 @@ def cleanup(request):
     test_profile = "test_profile"
 
     def remove_config_test():
-        print("All tests have finished! Test dabasase will be removed")
+        print("All tests have finished! Test configuration will be removed")
         filepath = f"./data/{test_profile}_setup.yml"
         os.remove(filepath)
 

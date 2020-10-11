@@ -55,16 +55,3 @@ def test_detect_date_cols():
 
 #######################################################################
 
-@pytest.fixture(scope="session", autouse=True)
-def cleanup(request):
-    """Cleanup after tests
-    """
-
-    test_profile = "test_profile"
-
-    def remove_config_test():
-        print("All tests have finished! Test dabasase will be removed")
-        filepath = f"./data/{test_profile}_setup.yml"
-        os.remove(filepath)
-
-    request.addfinalizer(remove_config_test)
