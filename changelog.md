@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Added basic testing for `yamlconfig`.
 - Added basic testing for `database`.
+- Added basic testing for `analysis`.
 - Added pytest to [requirements](./requirements.txt) file.
 
 ### Changed
