@@ -194,6 +194,8 @@ def test_read_movements_by_val_date():
 
     DB.close_database(con)
 
+#######################################################################
+
 @pytest.fixture(scope="session", autouse=True)
 def cleanup(request):
     """Cleanup after tests
