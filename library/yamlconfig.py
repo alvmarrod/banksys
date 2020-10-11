@@ -91,3 +91,23 @@ def load_config(profile_name) -> dict:
         logging.info(e)
 
     return setup
+
+def save_config(profile_name, data):
+    """Save the given configuration into the appropriate profile file.
+
+    Parameters:
+    - A `str` with the profile name.
+    - A `dict` with the configuration to save.
+    """
+
+    filepath = f"./data/{profile_name}_setup.yml"
+
+    if not os.path.exists(filepath):
+        
+        with open(filepath, 'r') as stream:
+
+            try:
+                config = _yaml_to_str(data)
+                stream.write(config)
+            except Exception as e:
+                raise e
