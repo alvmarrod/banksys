@@ -17,7 +17,7 @@ def _ask_bool_user(msg) -> bool:
             result = True
             
     except ValueError as e:
-        print("Error! {e}")
+        print(f"Error! {e}")
 
     return result
 
