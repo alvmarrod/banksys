@@ -23,23 +23,13 @@ def _generate_base_config(profile_name):
     idempotent, so it will not overwrite an existing config file.
     """
 
-    filepath = f"./data/{profile_name}_setup.yml"
-
-    if not os.path.exists(filepath):
-        
-        with open(filepath, 'r') as stream:
-
-            try:
-                
-                data = {
-                    "profile": {
-                        "name": "User1",
-                        "consolidate": "true"
-                    }
-                }
-                stream.write(_yaml_to_str(data))
-            except Exception as e:
-                raise e
+    data = {
+        "profile": {
+            "name": "User1",
+            "consolidate": "true"
+        }
+    }
+    save_config(profile_name, data)
 
 
 def _load_config(profile_name) -> dict:
@@ -109,7 +99,7 @@ def save_config(profile_name, data):
 
     if not os.path.exists(filepath):
         
-        with open(filepath, 'r') as stream:
+        with open(filepath, 'w') as stream:
 
             try:
                 config = _yaml_to_str(data)
