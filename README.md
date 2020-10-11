@@ -33,7 +33,7 @@ Remember that a new commit does not imply a new version.
 Tests are performed using PyTest library. To run them all, you can perform from the project folder:
 
 ```
-pytest
+pytest -v
 ```
 
 ## Dependencies
