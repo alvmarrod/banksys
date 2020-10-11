@@ -30,7 +30,7 @@ Remember that a new commit does not imply a new version.
 
 ## Testing
 
-Tests are performed using PyTest library. To run all them, you can perform from the project folder:
+Tests are performed using PyTest library. To run them all, you can perform from the project folder:
 
 ```
 pytest
