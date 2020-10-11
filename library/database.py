@@ -4,16 +4,6 @@ import sqlite3
 
 #######################################################################
 
-def _split_query_result(row, sep=",", quot="\""):
-    """Splits the given string by separator symbol, taking into account
-    the quote symbol.
-    """
-
-    # TODO
-    pass
-
-#######################################################################
-
 def _create_all_movements_table(con):
     """Creates the table for consolidated data. This function is
     idempotent, so it will not overwrite an existing config file.
