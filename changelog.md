@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added basic unit testing with [pytest](https://pypi.org/project/pytest/)
 - Added pytest to [requirements](./requirements.txt) file
 
+### Changed
+
+- Updated `generate_base_config` function to make use of `yaml_to_str` function.
+
 ## [0.0.3] - 2020-10-08
  
 ### Added

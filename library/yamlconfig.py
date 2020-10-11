@@ -7,7 +7,7 @@ import logging
 
 def _yaml_to_str(yaml_data) -> str:
     """Returns given YAML data as a string, using the YAML
-    style with block indentation.
+    style with block indentation. Useful to print data.
 
     Parameters:
     - A `dict` with the YAML data to be represented.
@@ -30,9 +30,14 @@ def _generate_base_config(profile_name):
         with open(filepath, 'r') as stream:
 
             try:
-               stream.write("""profile:
-  name: User1
-  consolidate: true""")
+                
+                data = {
+                    "profile": {
+                        "name": "User1",
+                        "consolidate": "true"
+                    }
+                }
+                stream.write(_yaml_to_str(data))
             except Exception as e:
                 raise e
 

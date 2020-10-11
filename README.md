@@ -6,7 +6,9 @@ This project aims to generate an analysis of your finances, taking as input a CS
 
 Execute the main script to access the app main menu and start working from there.
 
-```python main.py
+```
+$ python main.py
+
 ############### banksys ###############
 ####                               ####
 # 1. See report                       #
@@ -26,8 +28,17 @@ Current version tag is available in [version.txt](./version.txt) file, and you c
 
 Remember that a new commit does not imply a new version.
 
+## Testing
+
+Tests are performed using PyTest library. To run all them, you can perform from the project folder:
+
+```
+pytest
+```
+
 ## Dependencies
 
 - [Numpy](https://numpy.org/)
 - [Pandas](https://pandas.pydata.org/)
 - [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation)
+- [PyTest](https://pypi.org/project/pytest/)

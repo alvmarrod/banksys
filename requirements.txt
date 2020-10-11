@@ -2,3 +2,4 @@ pyyaml
 argparse
 numpy
 pandas
+pytest
