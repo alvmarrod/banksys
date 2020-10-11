@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  
 ### Added
 
-- Added basic testing with [pytest](https://pypi.org/project/pytest/) for `yamlconfig`.
+- Added basic testing for `yamlconfig`.
+- Added basic testing for `database`.
 - Added pytest to [requirements](./requirements.txt) file.
 
 ### Changed
