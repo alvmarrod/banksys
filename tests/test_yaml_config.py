@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import banksys.library.yamlconfig as YC
 
 #######################################################################
