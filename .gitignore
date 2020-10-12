@@ -1,5 +1,6 @@
 # Personal folders
-./data/*
+data/*
+!data/moc*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
