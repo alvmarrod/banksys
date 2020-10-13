@@ -71,3 +71,12 @@ def detect_dates_cols(dataframe) -> list:
             results.append(col)
 
     return results
+
+def column_filter(dataframe, columnname) -> bool:
+    """Returns a `bool` indicating the existence of the given column
+    in the dataframe. NEGATED.
+
+    - `True` if the column is MISSING in the dataframe.
+    """
+
+    return not columnname in dataframe.columns

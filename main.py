@@ -5,9 +5,8 @@ import numpy as np
 import pandas as pd
 
 import library.UI as UI
-import library.analysis as analysis
-import library.yamlconfig as YC
 import library.database as DB
+import library.yamlconfig as YC
 
 #######################################################################
 
@@ -45,16 +44,4 @@ if __name__ == "__main__":
 
     configuration = YC.load_config(SETUP_PROFILE)
 
-    con = DB.open_database(DB_FILE)
-
-    res = DB.insert_movement(con, ("2020-20-06", "2020-20-07", "Prueba 2", 70, 150))
-    #print(f"Insert result: {res}")
-
-    res = DB.read_movements_by_balance_range(con, 100, None)
-    print(f"Reads result: {len(res)}")
-    for item in res:
-        print(item)
-
-    DB.close_database(con)
-
-    # UI.menu()
+    UI.menu(configuration)
