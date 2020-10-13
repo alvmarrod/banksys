@@ -3,33 +3,14 @@ import os
 import logging
 import pandas as pd
 
+if "banksys" in __name__:
+    import banksys.library.analysis as analysis
+else:
+    import library.analysis as analysis
+
 #######################################################################
 
-def _ask_bool_user(msg) -> bool:
-    """Ask anything to the user and returns a boolean
-    """
-
-    result = False
-    try:
-        
-        option = input(f"Do you want {msg}? (Y/N): ")
-        if option.lower() == "y":
-            result = True
-            
-    except ValueError as e:
-        print(f"Error! {e}")
-
-    return result
-
-def _ask_str_user(msg) -> str:
-    """Ask anything to the user and returns the answer
-    """
-
-    result = input(f"{msg}: ")
-
-    return result
-
-def _load_movements(filepath, col_limit=5) -> pd.DataFrame:
+def load_movements(filepath, col_limit=5) -> pd.DataFrame:
     """Reads a CSV file with bank account movements and returns a pandas
     Dataframe.
 
@@ -42,7 +23,12 @@ def _load_movements(filepath, col_limit=5) -> pd.DataFrame:
     FP: Non-pure function
     """
 
-    moves = pd.read_csv(filepath,
+    moves = None
+
+    if os.path.isfile(filepath):
+        logging.info(f"Loading file data...")
+
+        moves = pd.read_csv(filepath,
                         sep=";",
                         decimal=",",
                         thousands=".",
@@ -52,34 +38,23 @@ def _load_movements(filepath, col_limit=5) -> pd.DataFrame:
                         #encoding="iso-8859-1")
                         encoding="utf-8")
 
-    logging.debug(f"Removing unnecesary columns...")
-    moves = moves.iloc[:, 0:col_limit]
+        if len(moves) < 1:
+            logging.warning(f"File doesn't contain valid data!")
+        else:
+            logging.debug(f"Removing unnecesary columns...")
+            moves = moves.iloc[:, 0:col_limit]
+        
+    else:
+        logging.warning(f"File doesn't exist!")
 
     return moves
 
 #######################################################################
 
-def load_data():
-    """Loads new data to the consolidated system.
-
-    1. Asks the user for the file to load
-    2. Loads it, removing garbage from an specific column onwards
-    3. Saves it to the consolidated data (TO-DO)
+def consolidate_movements():
+    """
     """
 
-    data = None
-    filepath = _ask_str_user("Please, insert the path to the file to load")
-    logging.info(f"File path: {filepath}")
-
-    if os.path.isfile(filepath):
-        logging.info(f"Loading file data...")
-        data = _load_movements(filepath)
-
-    if len(data) < 1:
-        logging.warning(f"File did not exist or did not contain valid data!")
-    else:
-        logging.warning(f"Consolidate data is not still implemented")
-        print(data)
-
+    pass
 
 #######################################################################
