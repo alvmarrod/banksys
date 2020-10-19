@@ -23,12 +23,20 @@ def _generate_base_config(profile_name):
     idempotent, so it will not overwrite an existing config file.
     """
 
+    logging.info(f"Generating base config...")
+
     data = {
         "profile": {
             "name": "User1",
-            "consolidate": "true"
+            "consolidate": "true",
+            "load": {
+                "wealth": "",
+                "movements": "",
+                "dates": []
+            }
         }
     }
+    
     save_config(profile_name, data)
 
 
@@ -53,6 +61,8 @@ def _load_config(profile_name) -> dict:
     with open(filepath, 'r') as stream:
         try:
             setup = yaml.safe_load(stream)
+            # Map configuration to avoid having to go into profile object
+            setup = setup["profile"]
         except yaml.YAMLError as e:
             raise e
 
@@ -74,6 +84,8 @@ def load_config(profile_name) -> dict:
     """
 
     setup = {}
+
+    logging.info(f"Loading config...")
 
     try: 
         
@@ -97,12 +109,26 @@ def save_config(profile_name, data):
 
     filepath = f"./data/{profile_name}_setup.yml"
 
-    if not os.path.exists(filepath):
+    logging.info(f"Saving config...")
         
-        with open(filepath, 'w') as stream:
+    with open(filepath, 'w') as stream:
 
-            try:
-                config = _yaml_to_str(data)
-                stream.write(config)
-            except Exception as e:
-                raise e
+        try:
+
+            if "profile" not in data:
+                saving_data = {
+                    "profile": {
+                        "name": profile_name
+                    }
+                }
+
+                for k in data.keys():
+                    saving_data["profile"][k] = data[k]
+
+            else:
+                saving_data = data
+
+            config = _yaml_to_str(saving_data)
+            stream.write(config)
+        except Exception as e:
+            raise e

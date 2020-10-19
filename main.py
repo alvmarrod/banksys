@@ -16,6 +16,8 @@ logging.basicConfig(level=logging.INFO,
 SETUP_PROFILE = "User1"
 DB_FILE = "consolidated_data"
 
+DEBUG=True
+
 #######################################################################
 
 if __name__ == "__main__":
@@ -45,3 +47,5 @@ if __name__ == "__main__":
     configuration = YC.load_config(SETUP_PROFILE)
 
     UI.menu(configuration)
+
+    YC.save_config(SETUP_PROFILE, configuration)
