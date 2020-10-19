@@ -6,6 +6,11 @@ import platform
 import library.analysis as analysis
 import library.processes as processes
 
+if "banksys" in __name__:
+    import banksys.main as main
+else:
+    import main as main
+
 PLATFORM = platform.system().lower()
 CLEAN_CMD = "cls" if "win" in PLATFORM else "clear"
 
@@ -21,6 +26,8 @@ def _ask_bool_user(msg, default=False) -> bool:
         option = input(f"{msg} (Y/N): ")
         if option.lower() == "y":
             result = True
+        elif option.lower() == "n":
+            result = False
             
     except ValueError as e:
         print(f"Error! {e}")
@@ -149,7 +156,8 @@ def _menu_generation(configuration=None) -> bool:
         }
     }
 
-    os.system(CLEAN_CMD)
+    if not main.DEBUG:
+        os.system(CLEAN_CMD)
 
     print("############### banksys ###############")
     print("####                               ####")
@@ -206,30 +214,52 @@ def run_load_data(configuration):
     mov_col, wea_col = analysis.detect_money_cols(moves)
     date_cols = analysis.detect_dates_cols(moves)
 
-    print("We have recognised that:")
-    print(f"\tColumn {mov_col} is the amount column")
-    print(f"\tColumn {wea_col} is the balance column")
-    print(f"\tColumns: {date_cols} are dates")
+    logging.debug("Recognised:")
+    logging.debug(f"\tColumn {mov_col} is the amount column")
+    logging.debug(f"\tColumn {wea_col} is the balance column")
 
-    mov_col_ask = f"Please, confirm that you want to use column \"{mov_col}\"" \
-                    + " as moves column introducing it here, or change it"
-    checkparams = [moves]
-    mov_col = _ask_loop("str", mov_col_ask, mov_col,
-                        analysis.column_filter, checkparameters=checkparams)
+    if configuration["load"]["wealth"] == str(wea_col) and \
+        configuration["load"]["movements"] == str(mov_col):
+        logging.info(f"Match with stored configuration. Importing directly...")
 
-    logging.debug(f"Ok, using column \"{mov_col}\"")
+    else:
 
-    wea_col_ask = f"Please, confirm that you want to use column \"{wea_col}\"" \
-                    + " as balance column introducing it here, or change it"
-    checkparams = [moves]
-    wea_col = _ask_loop("str", wea_col_ask, wea_col,
-                        analysis.column_filter, checkparameters=checkparams)
-    logging.debug(f"Ok, using column \"{wea_col}\"")
+        mov_col_ask = f"Please, confirm that you want to use column " \
+                    + f"\"{mov_col}\" as moves column, or change it"
+        checkparams = [moves]
+        mov_col = _ask_loop("str", mov_col_ask, mov_col,
+                            analysis.column_filter, checkparameters=checkparams)
 
-    mov_col_ask = f"Please, confirm that you want to use column \"{date_cols}\"" \
-                    + " as moves column introducing it here, or change it"
-    #aux_mov_col = _ask_str_user(mov_col_ask, default=mov_col)
-    #logging.debug(f"Ok, using column \"{mov_col}\"")
+        logging.debug(f"Ok, using column \"{mov_col}\"")
+
+        wea_col_ask = f"Please, confirm that you want to use column " \
+                    + f"\"{wea_col}\" as balance column, or change it"
+        checkparams = [moves]
+        wea_col = _ask_loop("str", wea_col_ask, wea_col,
+                            analysis.column_filter, checkparameters=checkparams)
+        logging.debug(f"Ok, using column \"{wea_col}\"")
+
+        save_setup_ask = "Do you want to save these column names as default" \
+                    + " for future imports"
+        if _ask_bool_user(save_setup_ask):
+            configuration["load"]["wealth"] = wea_col
+            configuration["load"]["movements"] = mov_col
+
+    logging.debug(f"\tColumns: {date_cols} are dates")
+    date_column_matching = True
+    for date in configuration["load"]["dates"]:
+        if date not in date_cols:
+            date_column_matching = False
+
+    if date_column_matching:
+        logging.info(f"Match with stored configuration. Importing directly...")
+    else:
+
+        for i in range(0, len(date_cols)):
+            date_cols_ask = "Please, confirm that you want to use column " \
+                            + f" \"{date_cols[i]}\" as date column, or change it"
+            date_cols[i] = _ask_str_user(date_cols_ask, default=date_cols[i])
+            logging.debug(f"Ok, using column \"{date_cols[i]}\"")
 
     logging.info(f"File path: {filepath}")
 
