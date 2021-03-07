@@ -37,6 +37,6 @@ def cleanup(request):
     def remove_config_test():
         print("All tests have finished! Test configuration will be removed")
         filepath = f"./data/{test_profile}_setup.yml"
-        # os.remove(filepath)
+        os.remove(filepath)
 
     request.addfinalizer(remove_config_test)
