@@ -204,6 +204,8 @@ def run_load_data(configuration):
     process.
     """
 
+    profile = configuration["profile"]
+
     filepath = _ask_str_user("Please, insert the path to the file to load")
     logging.info(f"File path: {filepath}")
 
@@ -218,8 +220,8 @@ def run_load_data(configuration):
     logging.debug(f"\tColumn {mov_col} is the amount column")
     logging.debug(f"\tColumn {wea_col} is the balance column")
 
-    if configuration["load"]["wealth"] == str(wea_col) and \
-        configuration["load"]["movements"] == str(mov_col):
+    if profile["load"]["wealth"] == str(wea_col) and \
+        profile["load"]["movements"] == str(mov_col):
         logging.info(f"Match with stored configuration. Importing directly...")
 
     else:
@@ -242,12 +244,12 @@ def run_load_data(configuration):
         save_setup_ask = "Do you want to save these column names as default" \
                     + " for future imports"
         if _ask_bool_user(save_setup_ask):
-            configuration["load"]["wealth"] = wea_col
-            configuration["load"]["movements"] = mov_col
+            profile["load"]["wealth"] = wea_col
+            profile["load"]["movements"] = mov_col
 
     logging.debug(f"\tColumns: {date_cols} are dates")
     date_column_matching = True
-    for date in configuration["load"]["dates"]:
+    for date in profile["load"]["dates"]:
         if date not in date_cols:
             date_column_matching = False
 
