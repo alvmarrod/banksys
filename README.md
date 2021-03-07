@@ -41,4 +41,6 @@ pytest -v
 - [Numpy](https://numpy.org/)
 - [Pandas](https://pandas.pydata.org/)
 - [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation)
+- [fastAPI](https://fastapi.tiangolo.com/)
+- [uvicorn](https://www.uvicorn.org/)
 - [PyTest](https://pypi.org/project/pytest/)

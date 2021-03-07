@@ -3,3 +3,5 @@ argparse
 numpy
 pandas
 pytest
+fastapi
+uvicorn

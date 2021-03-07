@@ -5,11 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.0.6] - 2021-03-??
+
+### Added
+
+- Added fastapi to [requirements](./requirements.txt) file.
+- Added uvicorn to [requirements](./requirements.txt) file.
+- Added basic testing for the `API`.
+
 ## [0.0.5] - 2020-10-??
  
 ### Added
 
 - Load new movements and consolidate them capability completed.
+
+Note: this branch was ditched. Since the project it's going to shift to a API service with potentially a Web interface, completing the process implementation in CLI mode is meaningless.
 
 ## [0.0.4] - 2020-10-12
  
