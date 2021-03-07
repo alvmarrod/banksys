@@ -18,7 +18,7 @@ def _yaml_to_str(yaml_data) -> str:
 
     return yaml.dump(yaml_data, default_flow_style=False)
 
-def _generate_base_config(profile_name):
+def _generate_base_config(profile_name) -> dict:
     """Generate a basic configuration for a profile. This function is
     idempotent, so it will not overwrite an existing config file.
     """
@@ -37,7 +37,8 @@ def _generate_base_config(profile_name):
         }
     }
     
-    save_config(profile_name, data)
+    # save_config(profile_name, data)
+    return data
 
 
 def _load_config(profile_name) -> dict:
@@ -61,8 +62,6 @@ def _load_config(profile_name) -> dict:
     with open(filepath, 'r') as stream:
         try:
             setup = yaml.safe_load(stream)
-            # Map configuration to avoid having to go into profile object
-            setup = setup["profile"]
         except yaml.YAMLError as e:
             raise e
 
@@ -89,13 +88,14 @@ def load_config(profile_name) -> dict:
 
     try: 
         
-        _generate_base_config(profile_name)
         setup = _load_config(profile_name)
 
     except Exception as e:
 
-        logging.warning(f"Error loading profile \"{profile_name}\"")
-        logging.info(e)
+        logging.info(f"Error loading profile \"{profile_name}\", doesn't exist")
+        logging.info(f"Generating default setup...")
+        setup = _generate_base_config(profile_name)
+        logging.debug(e)
 
     return setup
 

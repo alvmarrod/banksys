@@ -8,18 +8,22 @@ import banksys.library.yamlconfig as YC
 def test_yaml_config():
 
     test_profile = "test_profile"
-    test_data = {
-        "profile": {
-            "name": "test_user",
-            "consolidate": "true"
-        }
-    }
 
+    # Load original data/generate it
+    test_data = YC.load_config(test_profile)
+
+    # Modify it
+    test_data["profile"]["load"]["wealth"] = 288
+
+    # Save it
     YC.save_config(test_profile, test_data)
-    reloaded_data = YC.load_config(test_profile)
+
+    # Load again to check if saving works
+    data_saved = YC.load_config(test_profile)
 
     for k in test_data["profile"]:
-        assert test_data["profile"][k] == reloaded_data["profile"][k]
+        print(f"{test_data} vs {data_saved}")
+        assert test_data["profile"][k] == data_saved["profile"][k]
 
 #######################################################################
 
@@ -33,6 +37,6 @@ def cleanup(request):
     def remove_config_test():
         print("All tests have finished! Test configuration will be removed")
         filepath = f"./data/{test_profile}_setup.yml"
-        os.remove(filepath)
+        # os.remove(filepath)
 
     request.addfinalizer(remove_config_test)
