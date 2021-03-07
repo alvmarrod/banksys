@@ -8,34 +8,29 @@ import requests
 #import library.api
 from multiprocessing import Process
 
+# https://stackoverflow.com/questions/57412825/how-to-start-a-uvicorn-fastapi-in-background-when-testing-with-pytest
 #######################################################################
-
 # Run server identically to main, so we can test the API
-@pytest.fixture(scope="session")
+#######################################################################
+
 def run_server():
+    uvicorn.run(
+        "banksys.library.api:app", 
+        host="0.0.0.0", 
+        port=8080, 
+        log_level="info"
+    )
 
-    def start_server():
-        uvicorn.run(
-            "banksys.library.api:app", 
-            host="0.0.0.0", 
-            port=8080, 
-            log_level="info"
-        )
-
-    def stop_server():
-        proc.kill()
-
-    request.addfinalizer(remove_config_test)
-
-    proc = Process(target=start_server, args=(), daemon=True)
-    proc.start()
+@pytest.fixture()
+def server():
+    proc = Process(target=run_server, args=(), daemon=True)
+    proc.start() 
     yield
+    proc.kill() # Cleanup after test
 
 #######################################################################
 
-def test_health():
-
-    time.sleep(5)
+def test_health(server):
 
     response = requests.get("http://127.0.0.1:8080/health")
     assert response.status_code == 200

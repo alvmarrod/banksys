@@ -4,10 +4,10 @@ import datetime as dt
 
 from fastapi import FastAPI
 
-if "banksys" in __name__:
-    import banksys.library.analysis as analysis
-else:
-    import library.analysis as analysis
+# if "banksys" in __name__:
+#     import banksys.library.analysis as analysis
+# else:
+#     import library.analysis as analysis
 
 #######################################################################
 
