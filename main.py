@@ -11,7 +11,7 @@ import library.yamlconfig as YC
 #######################################################################
 
 logging.basicConfig(level=logging.INFO,
-                    format='%(name)s - %(levelname)s - %(message)s')
+                    format='%(name)s - %(filename)s - %(levelname)s - %(message)s')
 
 SETUP_PROFILE = "User1"
 DB_FILE = "consolidated_data"
