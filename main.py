@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import logging
+import uvicorn
 import argparse
-import numpy as np
-import pandas as pd
 
-import library.UI as UI
-import library.database as DB
-import library.yamlconfig as YC
+# import library.UI as UI
+# import library.database as DB
+# import library.yamlconfig as YC
+# import library.api as API
 
 #######################################################################
 
@@ -44,8 +44,19 @@ if __name__ == "__main__":
     # date_cols = analysis.detect_dates_cols(movements)
     # print(f"\tColumns: {date_cols}")
 
-    configuration = YC.load_config(SETUP_PROFILE)
+#######################################################################
 
-    UI.menu(configuration)
+    # configuration = YC.load_config(SETUP_PROFILE)
 
-    YC.save_config(SETUP_PROFILE, configuration)
+    # UI.menu(configuration)
+
+    # YC.save_config(SETUP_PROFILE, configuration)
+
+#######################################################################
+
+    uvicorn.run(
+        "library.api:app", 
+        host="0.0.0.0", 
+        port=8080, 
+        log_level="info"
+    )
